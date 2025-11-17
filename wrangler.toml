@@ -7,10 +7,13 @@ main = "worker/src/index.ts"
 compatibility_date = "2023-12-01"
 
 # D1数据库绑定
+# 注意：首次部署前，请先创建D1数据库并填写database_id
+# 运行: wrangler d1 create med-sales-db
+# 然后将返回的database_id填写到下面的配置中
 [[d1_databases]]
 binding = "DB"
 database_name = "med-sales-db"
-database_id = "your-d1-database-id" # 替换为实际的D1数据库ID
+# database_id = "" # 取消注释并填写实际的D1数据库ID
 
 # R2存储桶绑定
 [[r2_buckets]]

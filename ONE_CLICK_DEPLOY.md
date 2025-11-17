@@ -1,8 +1,15 @@
 # 🚀 一键部署到 Cloudflare
 
-> **✅ 问题已修复**: 项目现在支持从根目录进行一键部署，解决了"找不到 wrangler 配置文件"的问题。
+> **✅ 问题已修复**: 
+> - 解决了"找不到 wrangler 配置文件"的问题
+> - 修复了 D1 数据库 binding ID 验证错误 (code: 10021)
+> - 现在支持从根目录进行一键部署
 
 我们提供了两种便捷的部署方式，让您可以快速将医疗器械销售官网部署到 Cloudflare。
+
+## ⚠️ 重要提示
+
+在首次部署前，您需要先创建 Cloudflare 资源（D1 数据库和 R2 存储桶）。我们提供了自动化脚本来简化这个过程。
 
 ## 📋 方式一：GitHub Actions 一键部署（推荐）
 
@@ -82,23 +89,36 @@
    cd medical-sales-website
    ```
 
-2. **创建 Cloudflare 资源**
+2. **自动配置 Cloudflare 资源（推荐）**
    ```bash
-   # 创建数据库
+   # 运行自动化配置脚本
+   chmod +x setup-resources.sh
+   ./setup-resources.sh
+   ```
+   
+   这个脚本会自动：
+   - ✅ 创建 D1 数据库 `med-sales-db`
+   - ✅ 创建 R2 存储桶 `med-sales-images`
+   - ✅ 自动更新 wrangler.toml 配置文件
+   - ✅ 初始化数据库结构
+   - ✅ 导入种子数据（可选）
+   - ✅ 配置环境变量（可选）
+
+3. **手动配置 Cloudflare 资源（可选）**
+   如果您想手动配置，请执行：
+   ```bash
+   # 创建数据库并获取 ID
    wrangler d1 create med-sales-db
+   # 输出示例：
+   # ✅ Successfully created DB 'med-sales-db'
+   # database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
    
    # 创建存储桶
    wrangler r2 bucket create med-sales-images
-   ```
-
-3. **更新配置文件**
-   编辑 `worker/wrangler.toml`，替换占位符：
-   ```toml
-   # 替换为实际的数据库 ID
-   database_id = "your-actual-d1-database-id"
    
-   # 替换为实际的存储桶名称
-   bucket_name = "med-sales-images"
+   # 手动更新 worker/wrangler.toml 配置文件
+   # 将 database_id 替换为上面创建的实际 ID
+   # database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
    ```
 
 4. **设置环境变量**
@@ -195,26 +215,47 @@ wrangler d1 execute med-sales-db --file=./worker/seed.sql
 
 ### 常见问题
 
-1. **GitHub Actions 失败**
+1. **D1 数据库 binding ID 错误 (code: 10021)**
+   ```
+   错误: binding DB of type d1 must have a valid `id` specified [code: 10021]
+   ```
+   
+   **解决方案**：
+   ```bash
+   # 运行资源配置脚本
+   ./setup-resources.sh
+   
+   # 或手动创建数据库并更新配置
+   wrangler d1 create med-sales-db
+   # 将返回的 database_id 填入 worker/wrangler.toml
+   ```
+
+2. **GitHub Actions 失败**
    - 检查 Secrets 配置是否正确
    - 确认 API Token 权限足够
    - 查看 Actions 日志了解具体错误
 
-2. **Worker 部署失败**
+3. **Worker 部署失败**
    ```bash
    # 检查配置
    wrangler whoami
    wrangler deploy --dry-run
+   
+   # 验证 wrangler.toml 中是否已填写 database_id
+   grep database_id worker/wrangler.toml
    ```
 
-3. **数据库连接错误**
+4. **数据库连接错误**
    ```bash
    # 验证数据库绑定
    wrangler d1 list
    wrangler d1 execute med-sales-db --command="SELECT 1"
+   
+   # 检查数据库是否已初始化
+   wrangler d1 execute med-sales-db --command="SELECT name FROM sqlite_master WHERE type='table'"
    ```
 
-4. **前端构建失败**
+5. **前端构建失败**
    ```bash
    # 清理依赖
    rm -rf node_modules package-lock.json
