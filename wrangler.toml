@@ -1,0 +1,38 @@
+# Cloudflare Workers 部署配置文件
+# 这个文件用于 Cloudflare Workers 一键部署功能
+# 实际的 Worker 代码和配置在 worker/ 目录中
+
+name = "medical-sales-worker"
+main = "worker/src/index.ts"
+compatibility_date = "2023-12-01"
+
+# D1数据库绑定
+[[d1_databases]]
+binding = "DB"
+database_name = "med-sales-db"
+database_id = "your-d1-database-id" # 替换为实际的D1数据库ID
+
+# R2存储桶绑定
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "med-sales-images" # 替换为实际的R2存储桶名称
+
+# 环境变量
+[vars]
+API_VERSION = "v1"
+
+# 生产环境配置
+[env.production]
+name = "medical-sales-worker"
+routes = [
+  { pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+# 开发环境配置
+[env.development]
+name = "medical-sales-worker-dev"
+
+# 这些变量将在生产环境中通过secrets设置
+# JWT_SECRET = "your-jwt-secret-key"
+# ADMIN_USERNAME = "admin"
+# ADMIN_PASSWORD = "your-secure-password"

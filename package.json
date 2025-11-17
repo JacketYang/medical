@@ -1,0 +1,31 @@
+{
+  "name": "medical-sales-website",
+  "version": "1.0.0",
+  "description": "Medical equipment sales website - Full stack application with Cloudflare Workers and frontend",
+  "main": "worker/src/index.ts",
+  "scripts": {
+    "dev": "cd worker && npm run dev",
+    "deploy": "cd worker && npm run deploy",
+    "deploy:frontend": "cd frontend && npm run build && wrangler pages deploy dist --project-name=medical-sales-frontend",
+    "install:all": "npm install && cd worker && npm install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231218.0",
+    "wrangler": "^3.22.1"
+  },
+  "dependencies": {
+    "hono": "^3.11.7"
+  },
+  "keywords": [
+    "medical",
+    "sales",
+    "cloudflare",
+    "workers",
+    "d1",
+    "r2",
+    "react",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

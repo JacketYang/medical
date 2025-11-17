@@ -13,31 +13,71 @@ command -v node >/dev/null 2>&1 || { echo "❌ 请先安装 Node.js"; exit 1; }
 
 # 部署后端
 echo "📦 部署后端 Worker..."
-cd worker
 
-# 安装依赖
-if [ ! -d "node_modules" ]; then
-    echo "📥 安装后端依赖..."
-    npm install
-fi
-
-# 检查配置
-if ! grep -q "your-d1-database-id" wrangler.toml; then
-    echo "✅ Worker 配置已就绪"
+# 检查根目录是否有 wrangler.toml
+if [ -f "wrangler.toml" ]; then
+    echo "📥 使用根目录配置部署..."
+    # 安装根目录依赖
+    if [ ! -d "node_modules" ]; then
+        echo "📥 安装根目录依赖..."
+        npm install
+    fi
+    
+    # 安装 worker 依赖
+    if [ ! -d "worker/node_modules" ]; then
+        echo "📥 安装 Worker 依赖..."
+        cd worker && npm install && cd ..
+    fi
+    
+    # 检查配置
+    if ! grep -q "your-d1-database-id" wrangler.toml; then
+        echo "✅ Worker 配置已就绪"
+    else
+        echo "⚠️  请先配置 wrangler.toml 中的数据库 ID 和存储桶名称"
+        echo "   运行以下命令获取资源 ID:"
+        echo "   npx wrangler d1 create med-sales-db"
+        echo "   npx wrangler r2 bucket create med-sales-images"
+        exit 1
+    fi
+    
+    # 部署 Worker
+    echo "🌍 部署 Worker 到 Cloudflare..."
+    npx wrangler publish
 else
-    echo "⚠️  请先配置 wrangler.toml 中的数据库 ID 和存储桶名称"
-    echo "   运行以下命令获取资源 ID:"
-    echo "   wrangler d1 create med-sales-db"
-    echo "   wrangler r2 bucket create med-sales-images"
-    exit 1
-fi
+    echo "📥 使用 worker 目录配置部署..."
+    cd worker
 
-# 部署 Worker
-echo "🌍 部署 Worker 到 Cloudflare..."
-wrangler publish
+    # 安装依赖
+    if [ ! -d "node_modules" ]; then
+        echo "📥 安装后端依赖..."
+        npm install
+    fi
+
+    # 检查配置
+    if ! grep -q "your-d1-database-id" wrangler.toml; then
+        echo "✅ Worker 配置已就绪"
+    else
+        echo "⚠️  请先配置 wrangler.toml 中的数据库 ID 和存储桶名称"
+        echo "   运行以下命令获取资源 ID:"
+        echo "   wrangler d1 create med-sales-db"
+        echo "   wrangler r2 bucket create med-sales-images"
+        exit 1
+    fi
+
+    # 部署 Worker
+    echo "🌍 部署 Worker 到 Cloudflare..."
+    wrangler publish
+    
+    cd ..
+fi
 
 # 获取 Worker URL
-WORKER_URL=$(wrangler whoami | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
+if [ -f "wrangler.toml" ]; then
+    WORKER_URL=$(npx wrangler whoami 2>/dev/null | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
+else
+    WORKER_URL=$(cd worker && wrangler whoami 2>/dev/null | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
+fi
+
 if [ -z "$WORKER_URL" ]; then
     WORKER_URL="https://medical-sales-worker.your-subdomain.workers.dev"
 fi
@@ -45,7 +85,7 @@ echo "✅ Worker 部署成功: $WORKER_URL"
 
 # 部署前端
 echo "🎨 部署前端..."
-cd ../frontend
+cd frontend
 
 # 安装依赖
 if [ ! -d "node_modules" ]; then
@@ -62,7 +102,11 @@ npm run build
 
 # 部署到 Pages
 echo "📄 部署到 Cloudflare Pages..."
-wrangler pages deploy dist --project-name=medical-sales-frontend
+if command -v wrangler >/dev/null 2>&1; then
+    wrangler pages deploy dist --project-name=medical-sales-frontend
+else
+    npx wrangler pages deploy dist --project-name=medical-sales-frontend
+fi
 
 # 获取 Pages URL
 PAGES_URL="https://medical-sales-frontend.pages.dev"

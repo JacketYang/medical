@@ -1,5 +1,7 @@
 # 🚀 一键部署到 Cloudflare
 
+> **✅ 问题已修复**: 项目现在支持从根目录进行一键部署，解决了"找不到 wrangler 配置文件"的问题。
+
 我们提供了两种便捷的部署方式，让您可以快速将医疗器械销售官网部署到 Cloudflare。
 
 ## 📋 方式一：GitHub Actions 一键部署（推荐）
@@ -171,9 +173,9 @@ wrangler custom-domains add api.yourdomain.com
 ### 3. 设置数据库（首次部署）
 
 ```bash
-cd worker
-wrangler d1 execute med-sales-db --file=./schema.sql
-wrangler d1 execute med-sales-db --file=./seed.sql
+# 从根目录执行
+wrangler d1 execute med-sales-db --file=./worker/schema.sql
+wrangler d1 execute med-sales-db --file=./worker/seed.sql
 ```
 
 ## 🔑 访问信息
