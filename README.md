@@ -35,7 +35,7 @@
 
 ### 🎯 推荐：GitHub Actions 一键部署
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR_USERNAME/medical-sales-website)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/JacketYang/medical)
 
 [![Fork](https://img.shields.io/github/forks/YOUR_USERNAME/medical-sales-website?style=social)](https://github.com/YOUR_USERNAME/medical-sales-website/fork)
 [![Stars](https://img.shields.io/github/stars/YOUR_USERNAME/medical-sales-website?style=social)](https://github.com/YOUR_USERNAME/medical-sales-website)
