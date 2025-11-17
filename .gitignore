@@ -1,0 +1,88 @@
+# 依赖文件
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 构建输出
+dist/
+build/
+.output/
+.vercel/
+.netlify/
+
+# 环境变量
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE 和编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 日志文件
+*.log
+logs/
+
+# 运行时数据
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# 覆盖率报告
+coverage/
+*.lcov
+.nyc_output/
+
+# 依赖锁定文件（保留 package-lock.json，忽略 yarn.lock）
+yarn.lock
+
+# 临时文件
+*.tmp
+*.temp
+
+# Cloudflare 特定
+.wrangler/
+wrangler.toml.bak
+
+# 备份文件
+*.bak
+*.backup
+backups/
+
+# 测试
+.jest/
+test-results/
+playwright-report/
+test-results.xml
+
+# 缓存
+.cache/
+.parcel-cache/
+.eslintcache
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite/
+
+# 其他
+*.tgz
+*.tar.gz
