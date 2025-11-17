@@ -89,7 +89,37 @@ git clone <repository-url>
 cd medical-sales-website
 ```
 
-### 2. 部署后端
+### 2. 配置 Cloudflare 资源
+
+```bash
+# 使用自动化脚本（推荐）
+chmod +x setup-resources.sh
+./setup-resources.sh
+
+# 脚本会自动创建 D1 数据库、R2 存储桶并配置环境
+```
+
+或手动配置：
+
+```bash
+# 创建 Cloudflare 资源
+wrangler d1 create med-sales-db
+wrangler r2 bucket create med-sales-images
+
+# 更新 worker/wrangler.toml 中的 database_id
+
+# 初始化数据库
+cd worker
+wrangler d1 execute med-sales-db --file=./schema.sql
+wrangler d1 execute med-sales-db --file=./seed.sql
+
+# 配置环境变量
+wrangler secret put JWT_SECRET
+wrangler secret put ADMIN_USERNAME
+wrangler secret put ADMIN_PASSWORD
+```
+
+### 3. 部署后端
 
 ```bash
 cd worker
@@ -97,26 +127,11 @@ cd worker
 # 安装依赖
 npm install
 
-# 创建 Cloudflare 资源
-wrangler d1 create med-sales-db
-wrangler r2 bucket create med-sales-images
-
-# 配置环境变量
-wrangler secret put JWT_SECRET
-wrangler secret put ADMIN_USERNAME
-wrangler secret put ADMIN_PASSWORD
-
-# 更新 wrangler.toml 中的数据库 ID 和存储桶名称
-
-# 初始化数据库
-wrangler d1 execute med-sales-db --file=./schema.sql
-wrangler d1 execute med-sales-db --file=./seed.sql
-
 # 部署 Worker
-wrangler publish
+wrangler deploy
 ```
 
-### 3. 部署前端
+### 4. 部署前端
 
 ```bash
 cd frontend
@@ -174,8 +189,10 @@ medical-sales-website/
 ├── deploy.html           # Web 部署界面
 ├── status.html          # 部署状态监控
 ├── deploy.sh            # 自动部署脚本
+├── setup-resources.sh   # 资源配置脚本
 ├── DEPLOYMENT.md        # 详细部署指南
 ├── ONE_CLICK_DEPLOY.md  # 一键部署指南
+├── TROUBLESHOOTING.md   # 故障排查指南
 ├── QUICK_START.md       # 快速开始
 ├── API_TESTING.md       # API 测试示例
 ├── PROJECT_HANDOVER.md  # 项目交付说明
@@ -334,9 +351,10 @@ wrangler d1 execute med-sales-db --command="SELECT * FROM products"
 
 如有问题或建议，请：
 
-1. 查看 [DEPLOYMENT.md](DEPLOYMENT.md) 部署指南
-2. 提交 [Issue](../../issues) 报告问题
-3. 发起 [Discussion](../../discussions) 参与讨论
+1. 查看 [TROUBLESHOOTING.md](TROUBLESHOOTING.md) 故障排查指南
+2. 查看 [DEPLOYMENT.md](DEPLOYMENT.md) 部署指南
+3. 提交 [Issue](../../issues) 报告问题
+4. 发起 [Discussion](../../discussions) 参与讨论
 
 ## 📞 联系我们
 

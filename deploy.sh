@@ -30,13 +30,17 @@ if [ -f "wrangler.toml" ]; then
     fi
     
     # 检查配置
-    if ! grep -q "your-d1-database-id" wrangler.toml; then
+    if grep -q "^[[:space:]]*database_id[[:space:]]*=" wrangler.toml && ! grep -q "^[[:space:]]*#.*database_id" wrangler.toml; then
         echo "✅ Worker 配置已就绪"
     else
-        echo "⚠️  请先配置 wrangler.toml 中的数据库 ID 和存储桶名称"
-        echo "   运行以下命令获取资源 ID:"
+        echo "⚠️  请先配置 wrangler.toml 中的数据库 ID"
+        echo "   运行以下命令配置资源:"
+        echo "   ./setup-resources.sh"
+        echo ""
+        echo "   或手动创建资源:"
         echo "   npx wrangler d1 create med-sales-db"
         echo "   npx wrangler r2 bucket create med-sales-images"
+        echo "   然后更新 wrangler.toml 中的 database_id"
         exit 1
     fi
     
@@ -54,13 +58,17 @@ else
     fi
 
     # 检查配置
-    if ! grep -q "your-d1-database-id" wrangler.toml; then
+    if grep -q "^[[:space:]]*database_id[[:space:]]*=" wrangler.toml && ! grep -q "^[[:space:]]*#.*database_id" wrangler.toml; then
         echo "✅ Worker 配置已就绪"
     else
-        echo "⚠️  请先配置 wrangler.toml 中的数据库 ID 和存储桶名称"
-        echo "   运行以下命令获取资源 ID:"
+        echo "⚠️  请先配置 wrangler.toml 中的数据库 ID"
+        echo "   运行以下命令配置资源:"
+        echo "   ./setup-resources.sh"
+        echo ""
+        echo "   或手动创建资源:"
         echo "   wrangler d1 create med-sales-db"
         echo "   wrangler r2 bucket create med-sales-images"
+        echo "   然后更新 wrangler.toml 中的 database_id"
         exit 1
     fi
 
