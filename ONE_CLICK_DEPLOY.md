@@ -216,19 +216,43 @@ wrangler d1 execute med-sales-db --file=./worker/seed.sql
 ### 常见问题
 
 1. **D1 数据库 binding ID 错误 (code: 10021)**
-   ```
-   错误: binding DB of type d1 must have a valid `id` specified [code: 10021]
-   ```
-   
-   **解决方案**：
-   ```bash
-   # 运行资源配置脚本
-   ./setup-resources.sh
-   
-   # 或手动创建数据库并更新配置
-   wrangler d1 create med-sales-db
-   # 将返回的 database_id 填入 worker/wrangler.toml
-   ```
+    ```
+    错误: binding DB of type d1 must have a "database_id" field
+    或
+    错误: binding DB of type d1 must have a valid `id` specified [code: 10021]
+    ```
+
+    **解决方案**：
+
+    **方式一：使用 Cloudflare Pages 一键部署（推荐）**
+    ```bash
+    # 1. 创建 D1 数据库
+    wrangler d1 create med-sales-db
+    # 复制输出中的 database_id
+
+    # 2. 在 Cloudflare Pages 中配置环境变量
+    # Settings > Build & deployments > Build configuration > Environment variables
+    # 添加: D1_DATABASE_ID = <your-database-id>
+
+    # 3. 推送代码触发自动部署
+    git push
+    ```
+
+    **方式二：本地运行部署脚本**
+    ```bash
+    # 运行资源配置脚本
+    ./setup-resources.sh
+
+    # 或设置环境变量后部署
+    export D1_DATABASE_ID="<your-database-id>"
+    npm run deploy
+
+    # 或手动创建数据库并更新配置
+    wrangler d1 create med-sales-db
+    node scripts/prepare-wrangler-config.js
+    ```
+
+    **详细说明**：参考 [CLOUDFLARE_PAGES_SETUP.md](CLOUDFLARE_PAGES_SETUP.md)
 
 2. **GitHub Actions 失败**
    - 检查 Secrets 配置是否正确
