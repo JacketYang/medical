@@ -33,6 +33,8 @@
 
 ## 🚀 一键部署
 
+> **✅ 问题已修复**: 项目现在支持从根目录进行一键部署，解决了"找不到 wrangler 配置文件"的问题。
+
 ### 🎯 推荐：GitHub Actions 一键部署
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/JacketYang/medical)
