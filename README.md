@@ -31,7 +31,48 @@
                        └─────────────────┘
 ```
 
-## 🚀 快速开始
+## 🚀 一键部署
+
+### 🎯 推荐：GitHub Actions 一键部署
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR_USERNAME/medical-sales-website)
+
+[![Fork](https://img.shields.io/github/forks/YOUR_USERNAME/medical-sales-website?style=social)](https://github.com/YOUR_USERNAME/medical-sales-website/fork)
+[![Stars](https://img.shields.io/github/stars/YOUR_USERNAME/medical-sales-website?style=social)](https://github.com/YOUR_USERNAME/medical-sales-website)
+
+<details>
+<summary>📖 查看一键部署指南</summary>
+
+### 前置条件
+
+1. **Fork 项目**：点击页面右上角的 "Fork" 按钮
+2. **获取 Cloudflare API Token**：
+   - 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
+   - 进入 "My Profile" → "API Tokens"
+   - 创建 Custom Token，权限包括：D1:Edit, R2:Edit, Zone:Read
+3. **配置 GitHub Secrets**：
+   - 在您 Fork 的仓库中设置：
+     - `CLOUDFLARE_API_TOKEN`: 您的 API Token
+     - `CLOUDFLARE_ACCOUNT_ID`: Cloudflare 账户 ID
+
+### 部署步骤
+
+1. 进入您 Fork 仓库的 Actions 页面
+2. 选择 "Deploy to Cloudflare" 工作流
+3. 点击 "Run workflow" 开始部署
+4. 等待部署完成
+
+详细指南请参考：[ONE_CLICK_DEPLOY.md](ONE_CLICK_DEPLOY.md)
+
+</details>
+
+### 🌐 Web 界面部署
+
+打开 `deploy.html` 文件，点击"一键部署"按钮，按照页面指引完成部署。
+
+### 📦 本地部署
+
+如果您更喜欢本地部署，请参考以下步骤：
 
 ### 环境要求
 
@@ -93,6 +134,8 @@ wrangler pages deploy dist --project-name=medical-sales-frontend
 
 ```
 medical-sales-website/
+├── .github/workflows/     # GitHub Actions 工作流
+│   └── deploy.yml        # 自动部署工作流
 ├── worker/                 # Cloudflare Workers 后端
 │   ├── src/
 │   │   ├── index.ts       # 应用入口
@@ -126,8 +169,15 @@ medical-sales-website/
 │   │   └── styles/       # 样式文件
 │   ├── package.json
 │   └── vite.config.ts
-├── DEPLOYMENT.md          # 详细部署指南
-└── README.md             # 项目说明
+├── deploy.html           # Web 部署界面
+├── status.html          # 部署状态监控
+├── deploy.sh            # 自动部署脚本
+├── DEPLOYMENT.md        # 详细部署指南
+├── ONE_CLICK_DEPLOY.md  # 一键部署指南
+├── QUICK_START.md       # 快速开始
+├── API_TESTING.md       # API 测试示例
+├── PROJECT_HANDOVER.md  # 项目交付说明
+└── README.md           # 项目说明
 ```
 
 ## 🎯 功能特性

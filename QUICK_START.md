@@ -1,6 +1,30 @@
 # 🚀 快速开始指南
 
-## 一键部署
+## 🎯 推荐：GitHub 一键部署
+
+### 第一步：Fork 项目
+1. 访问项目 GitHub 页面
+2. 点击右上角 "Fork" 按钮
+3. 选择 Fork 到您的账户
+
+### 第二步：配置 Cloudflare
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. 获取 API Token（权限：D1:Edit, R2:Edit, Zone:Read）
+3. 获取 Account ID
+
+### 第三步：设置 GitHub Secrets
+在您 Fork 的仓库中设置：
+- `CLOUDFLARE_API_TOKEN`: 您的 API Token
+- `CLOUDFLARE_ACCOUNT_ID`: Cloudflare 账户 ID
+- `API_URL`: Worker API 地址（部署后获取）
+
+### 第四步：一键部署
+1. 进入仓库的 Actions 页面
+2. 选择 "Deploy to Cloudflare" 工作流
+3. 点击 "Run workflow" 开始部署
+4. 等待部署完成
+
+## 📦 本地一键部署
 
 如果您已经配置好了 Cloudflare 账户和必要的环境变量，可以直接运行：
 

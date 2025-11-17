@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医疗器械销售官网 - 一键部署</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .step {
+            transition: all 0.3s ease;
+        }
+        .step:hover {
+            transform: translateY(-2px);
+        }
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="text-3xl font-bold text-purple-600">M</span>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">医疗器械销售官网</h1>
+                <p class="text-xl mb-8 text-purple-100">现代化、高性能的医疗器械销售平台</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR_USERNAME/medical-sales-website" 
+                       target="_blank" 
+                       class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors shadow-lg inline-flex items-center justify-center">
+                        🚀 一键部署到 Cloudflare
+                    </a>
+                    <button onclick="showManual()" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                        📖 手动部署指南
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Deployment Status -->
+        <div id="deployment-status" class="hidden mb-8">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                <div class="flex items-center">
+                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-3"></div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-800">正在部署<span class="loading-dots"></span></h3>
+                        <p class="text-blue-600 mt-1">请稍候，正在将您的项目部署到 Cloudflare</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-message" class="hidden mb-8">
+            <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                <div class="flex items-center">
+                    <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-green-800">部署成功！</h3>
+                        <p class="text-green-600 mt-1">您的医疗器械销售官网已成功部署到 Cloudflare</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6 step">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <span class="text-2xl">⚡</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">极速部署</h3>
+                <p class="text-gray-600">一键部署到 Cloudflare，全球 CDN 加速，秒级访问</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 step">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <span class="text-2xl">🔒</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">安全可靠</h3>
+                <p class="text-gray-600">JWT 认证、HTTPS 加密、Cloudflare 安全防护</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 step">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <span class="text-2xl">💰</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">成本极低</h3>
+                <p class="text-gray-600">Cloudflare 免费套餐即可支撑，月成本几乎为零</p>
+            </div>
+        </div>
+
+        <!-- Deployment Steps -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-center">部署步骤</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-purple-600">1</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">Fork 项目</h3>
+                    <p class="text-sm text-gray-600">将项目 Fork 到您的 GitHub 账户</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-purple-600">2</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">配置密钥</h3>
+                    <p class="text-sm text-gray-600">设置 Cloudflare API Token 和账户 ID</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-purple-600">3</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">一键部署</h3>
+                    <p class="text-sm text-gray-600">点击部署按钮，自动完成所有配置</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold text-purple-600">4</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">访问网站</h3>
+                    <p class="text-sm text-gray-600">部署完成后即可访问您的网站</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Guide -->
+        <div class="bg-gray-100 rounded-lg p-8">
+            <h2 class="text-2xl font-bold mb-6">配置指南</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-2 text-sm">1</span>
+                        获取 Cloudflare API Token
+                    </h3>
+                    <ol class="space-y-2 text-sm text-gray-700">
+                        <li>登录 <a href="https://dash.cloudflare.com/" target="_blank" class="text-blue-600 hover:underline">Cloudflare Dashboard</a></li>
+                        <li>进入 "My Profile" → "API Tokens"</li>
+                        <li>点击 "Create Token" → "Custom token"</li>
+                        <li>配置权限：
+                            <ul class="ml-4 mt-1 space-y-1">
+                                <li>• Account: Cloudflare D1:Edit</li>
+                                <li>• Account: Cloudflare R2:Edit</li>
+                                <li>• Zone: Zone:Read</li>
+                                <li>• Account: Account Settings:Read</li>
+                            </ul>
+                        </li>
+                        <li>复制生成的 Token</li>
+                    </ol>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-2 text-sm">2</span>
+                        配置 GitHub Secrets
+                    </h3>
+                    <ol class="space-y-2 text-sm text-gray-700">
+                        <li>进入您 Fork 的 GitHub 仓库</li>
+                        <li>点击 "Settings" → "Secrets and variables" → "Actions"</li>
+                        <li>点击 "New repository secret" 添加以下密钥：
+                            <ul class="ml-4 mt-1 space-y-1 font-mono text-xs">
+                                <li>• <code>CLOUDFLARE_API_TOKEN</code>: 您的 API Token</li>
+                                <li>• <code>CLOUDFLARE_ACCOUNT_ID</code>: Cloudflare 账户 ID</li>
+                                <li>• <code>API_URL</code>: Worker API 地址（部署后获取）</li>
+                            </ul>
+                        </li>
+                        <li>保存所有密钥</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">🏥 医疗器械销售官网 - 现代化医疗设备销售平台</p>
+            <p class="text-gray-400 text-sm">基于 Cloudflare Workers + D1 + R2 + React 构建</p>
+        </div>
+    </footer>
+
+    <!-- Manual Deployment Modal -->
+    <div id="manual-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">手动部署指南</h2>
+                    <button onclick="closeManual()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="prose max-w-none">
+                    <h3>🚀 快速开始</h3>
+                    <p>如果您已经配置好了 Cloudflare 账户和必要的环境变量，可以直接运行：</p>
+                    <pre><code>./deploy.sh</code></pre>
+
+                    <h3>📦 手动部署步骤</h3>
+                    <h4>1. 准备 Cloudflare 资源</h4>
+                    <pre><code># 登录 Cloudflare
+wrangler login
+
+# 创建数据库
+wrangler d1 create med-sales-db
+
+# 创建存储桶
+wrangler r2 bucket create med-sales-images</code></pre>
+
+                    <h4>2. 配置后端</h4>
+                    <pre><code>cd worker
+
+# 配置 wrangler.toml 中的数据库 ID 和存储桶名称
+
+# 设置环境变量
+wrangler secret put JWT_SECRET
+wrangler secret put ADMIN_USERNAME
+wrangler secret put ADMIN_PASSWORD
+
+# 初始化数据库
+wrangler d1 execute med-sales-db --file=./schema.sql
+wrangler d1 execute med-sales-db --file=./seed.sql
+
+# 部署 Worker
+npm install
+wrangler publish</code></pre>
+
+                    <h4>3. 部署前端</h4>
+                    <pre><code>cd frontend
+
+# 配置 API 地址
+echo "VITE_API_URL=https://your-worker-domain.workers.dev/api" > .env.production
+
+# 构建和部署
+npm install
+npm run build
+wrangler pages deploy dist --project-name=medical-sales-frontend</code></pre>
+
+                    <h3>🔑 默认账号</h3>
+                    <ul>
+                        <li><strong>用户名:</strong> admin</li>
+                        <li><strong>密码:</strong> admin123</li>
+                    </ul>
+                    <p class="text-red-600">⚠️ 重要: 首次登录后请立即修改密码！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startDeployment() {
+            // 显示部署状态
+            document.getElementById('deployment-status').classList.remove('hidden');
+            document.getElementById('success-message').classList.add('hidden');
+            
+            // 滚动到状态区域
+            document.getElementById('deployment-status').scrollIntoView({ behavior: 'smooth' });
+            
+            // 模拟部署过程
+            setTimeout(() => {
+                document.getElementById('deployment-status').classList.add('hidden');
+                document.getElementById('success-message').classList.remove('hidden');
+                
+                // 滚动到成功消息
+                document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+            }, 5000);
+        }
+
+        function showManual() {
+            document.getElementById('manual-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeManual() {
+            document.getElementById('manual-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('manual-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeManual();
+            }
+        });
+    </script>
+</body>
+</html>

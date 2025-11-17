@@ -16,12 +16,19 @@ bucket_name = "med-sales-images" # 替换为实际的R2存储桶名称
 # 环境变量
 [vars]
 API_VERSION = "v1"
+
+# 生产环境配置
+[env.production]
+name = "medical-sales-worker"
+routes = [
+  { pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+# 开发环境配置
+[env.development]
+name = "medical-sales-worker-dev"
+
 # 这些变量将在生产环境中通过secrets设置
 # JWT_SECRET = "your-jwt-secret-key"
 # ADMIN_USERNAME = "admin"
 # ADMIN_PASSWORD = "your-secure-password"
-
-# Workers路由配置（可选，用于自定义域名）
-# [routes]
-# pattern = "api.yourdomain.com/*"
-# zone_name = "yourdomain.com"

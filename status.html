@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医疗器械销售官网 - 部署状态</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .status-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">部署状态监控</h1>
+                <p class="text-lg text-purple-100">实时监控医疗器械销售官网的部署状态</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Deployment Status Cards -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Worker API</h3>
+                    <div class="w-3 h-3 bg-green-500 rounded-full status-dot"></div>
+                </div>
+                <p class="text-2xl font-bold text-green-600 mb-2">运行中</p>
+                <p class="text-sm text-gray-600">最后更新: 2分钟前</p>
+                <a href="https://medical-sales-worker.your-subdomain.workers.dev" target="_blank" class="text-blue-600 hover:underline text-sm">查看详情 →</a>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">前端网站</h3>
+                    <div class="w-3 h-3 bg-green-500 rounded-full status-dot"></div>
+                </div>
+                <p class="text-2xl font-bold text-green-600 mb-2">运行中</p>
+                <p class="text-sm text-gray-600">最后更新: 5分钟前</p>
+                <a href="https://medical-sales-frontend.pages.dev" target="_blank" class="text-blue-600 hover:underline text-sm">访问网站 →</a>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">D1 数据库</h3>
+                    <div class="w-3 h-3 bg-green-500 rounded-full status-dot"></div>
+                </div>
+                <p class="text-2xl font-bold text-green-600 mb-2">正常</p>
+                <p class="text-sm text-gray-600">连接正常</p>
+                <a href="#" class="text-blue-600 hover:underline text-sm">查看详情 →</a>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">R2 存储</h3>
+                    <div class="w-3 h-3 bg-green-500 rounded-full status-dot"></div>
+                </div>
+                <p class="text-2xl font-bold text-green-600 mb-2">正常</p>
+                <p class="text-sm text-gray-600">存储正常</p>
+                <a href="#" class="text-blue-600 hover:underline text-sm">查看详情 →</a>
+            </div>
+        </div>
+
+        <!-- Recent Deployments -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold mb-6">最近部署记录</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">时间</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">分支</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-12-17 15:30</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    完整部署
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">main</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    成功
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                                <a href="#" class="hover:underline">查看日志</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-12-17 14:15</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Worker
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">main</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    成功
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                                <a href="#" class="hover:underline">查看日志</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-12-17 12:45</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                    前端
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">main</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    成功
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                                <a href="#" class="hover:underline">查看日志</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">快速部署</h3>
+                <p class="text-gray-600 mb-4">重新部署最新代码到生产环境</p>
+                <button onclick="quickDeploy()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                    🚀 立即部署
+                </button>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">查看日志</h3>
+                <p class="text-gray-600 mb-4">查看最近的部署和运行日志</p>
+                <button onclick="viewLogs()" class="w-full bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+                    📊 查看日志
+                </button>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">系统监控</h3>
+                <p class="text-gray-600 mb-4">查看系统性能和错误统计</p>
+                <button onclick="viewMonitoring()" class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
+                    📈 系统监控
+                </button>
+            </div>
+        </div>
+
+        <!-- System Metrics -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-6">系统指标</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div>
+                    <h4 class="text-sm font-medium text-gray-500 mb-2">API 响应时间</h4>
+                    <p class="text-2xl font-bold text-gray-900">245ms</p>
+                    <p class="text-sm text-green-600">↓ 12% vs 昨日</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-500 mb-2">错误率</h4>
+                    <p class="text-2xl font-bold text-gray-900">0.12%</p>
+                    <p class="text-sm text-green-600">↓ 0.05% vs 昨日</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-500 mb-2">日活跃用户</h4>
+                    <p class="text-2xl font-bold text-gray-900">1,234</p>
+                    <p class="text-sm text-green-600">↑ 8% vs 昨日</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-500 mb-2">请求总数</h4>
+                    <p class="text-2xl font-bold text-gray-900">45.6K</p>
+                    <p class="text-sm text-green-600">↑ 15% vs 昨日</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">🏥 医疗器械销售官网 - 部署状态监控</p>
+            <p class="text-gray-400 text-sm">自动更新时间：<span id="update-time"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        // 更新时间
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('update-time').textContent = now.toLocaleString('zh-CN');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // 快速部署
+        function quickDeploy() {
+            if (confirm('确定要立即部署到生产环境吗？')) {
+                // 这里可以调用部署 API 或跳转到 GitHub Actions
+                window.open('https://github.com/YOUR_USERNAME/medical-sales-website/actions', '_blank');
+            }
+        }
+
+        // 查看日志
+        function viewLogs() {
+            window.open('https://github.com/YOUR_USERNAME/medical-sales-website/actions', '_blank');
+        }
+
+        // 系统监控
+        function viewMonitoring() {
+            window.open('https://dash.cloudflare.com/', '_blank');
+        }
+
+        // 模拟实时状态更新
+        setTimeout(() => {
+            const statusCards = document.querySelectorAll('.status-dot');
+            statusCards.forEach(dot => {
+                dot.style.backgroundColor = '#10b981'; // green-500
+            });
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deploy_worker:
+        description: 'Deploy Worker'
+        required: false
+        default: 'true'
+        type: boolean
+      deploy_frontend:
+        description: 'Deploy Frontend'
+        required: false
+        default: 'true'
+        type: boolean
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+env:
+  WORKER_NAME: medical-sales-worker
+  PAGES_PROJECT: medical-sales-frontend
+
+jobs:
+  deploy-worker:
+    if: github.event.inputs.deploy_worker == 'true' || github.event.inputs.deploy_worker == ''
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: worker/package-lock.json
+
+    - name: Install Wrangler
+      run: npm install -g wrangler
+
+    - name: Install Worker Dependencies
+      run: |
+        cd worker
+        npm ci
+
+    - name: Deploy Worker
+      run: |
+        cd worker
+        wrangler deploy --env ${{ github.event.inputs.environment || 'production' }}
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  deploy-frontend:
+    if: github.event.inputs.deploy_frontend == 'true' || github.event.inputs.deploy_frontend == ''
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build
+      env:
+        VITE_API_URL: ${{ secrets.API_URL }}
+
+    - name: Deploy to Cloudflare Pages
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        projectName: ${{ env.PAGES_PROJECT }}
+        directory: frontend/dist
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        wranglerVersion: '3'
+
+  setup-database:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install Wrangler
+      run: npm install -g wrangler
+
+    - name: Initialize Database
+      run: |
+        cd worker
+        # 创建数据库（如果不存在）
+        wrangler d1 create med-sales-db || echo "Database already exists"
+        
+        # 创建存储桶（如果不存在）
+        wrangler r2 bucket create med-sales-images || echo "Bucket already exists"
+        
+        # 执行数据库迁移
+        wrangler d1 execute med-sales-db --file=./schema.sql || echo "Schema already exists"
+        
+        # 导入种子数据（可选）
+        wrangler d1 execute med-sales-db --file=./seed.sql || echo "Seed data already exists"
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  notify:
+    needs: [deploy-worker, deploy-frontend]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Deployment Summary
+      run: |
+        echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📦 Worker Status" >> $GITHUB_STEP_SUMMARY
+        echo "${{ needs.deploy-worker.result == 'success' && '✅ Success' || '❌ Failed' }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🎨 Frontend Status" >> $GITHUB_STEP_SUMMARY
+        echo "${{ needs.deploy-frontend.result == 'success' && '✅ Success' || '❌ Failed' }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🔗 Access Links" >> $GITHUB_STEP_SUMMARY
+        echo "- **Frontend:** https://medical-sales-frontend.pages.dev" >> $GITHUB_STEP_SUMMARY
+        echo "- **API:** https://medical-sales-worker.your-subdomain.workers.dev" >> $GITHUB_STEP_SUMMARY
+        echo "- **Admin:** https://medical-sales-frontend.pages.dev/admin/login" >> $GITHUB_STEP_SUMMARY
